@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+  <title>RPN 计算器使用手册 (v1.2.0)</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>🐳</text></svg>">
+  <meta content="text/html; charset=utf-8" http-equiv="content-type">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
+  <meta content="nimib 0.3.12" name="generator">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.min.css">
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/pietroppeter/nimib/assets/atom-one-light.css'>
+    <script src="https://cdn.jsdelivr.net/gh/pietroppeter/nimib@main/assets/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+  <style>
+.nb-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.nb-small {
+  font-size: 0.8rem;
+}
+button.nb-small {
+  float: right;
+  padding: 2px;
+  padding-right: 5px;
+  padding-left: 5px;
+}
+section#source {
+  display:none
+}
+pre > code {
+  font-size: 1.2em;
+}
+.nb-output {
+  line-height: 1.15;
+}
+figure {
+  margin: 2rem 0;
+}
+figcaption {
+  text-align: center;
+}
+  
+</style>
+  
+</head>
+<body>
+<header>
+<div class="nb-box">
+  <span><a href=".">🏡</a></span>
+  <span><code>rpn_manual.nim</code></span>
+  <span></span>
+</div>
+<hr>
+</header><main>
+<h1>RPN 计算器使用手册</h1>
+<p>本文档提供了 RPN (逆波兰表示法) 计算器的编译说明和详细使用方法。</p>
+<h2>编译指南</h2>
+<p>在运行程序之前，您需要先将 C++ 源代码编译成可执行文件。</p>
+<p><strong>环境要求:</strong></p>
+<ul>
+<li>一个支持 C++11 或更高标准的 C++ 编译器 (例如 <code>g++</code>).</li>
+</ul>
+<p><strong>编译步骤:</strong></p>
+<ol>
+<li>将源代码保存为 <code>rpn_calc.cpp</code> 文件。</li>
+<li>打开终端，并导航到文件所在的目录。</li>
+<li>执行以下命令进行编译：</li>
+</ol>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">discard</span> <span class="hljs-string">&quot;&quot;&quot;
+  g++ -std=c++11 rpn_calc.cpp -o rpn_calc
+  &quot;&quot;&quot;</span></code></pre>
+<ol start="4">
+<li>编译成功后，会生成一个名为 <code>rpn_calc</code> 的可执行文件。</li>
+<li>通过以下命令运行计算器：</li>
+</ol>
+<pre><code class="nohighlight hljs nim"><span class="hljs-keyword">discard</span> <span class="hljs-string">&quot;&quot;&quot;
+  ./rpn_calc
+  &quot;&quot;&quot;</span></code></pre>
+<p>程序启动后，您就可以在 <code>&gt;</code> 提示符后输入表达式了。</p>
+<h2>用法示例</h2>
+<p>RPN 计算器的核心思想是&quot;操作数在前，操作符在后&quot;。</p>
+<h3>1. 基础四则运算</h3>
+<p><strong>加法 (<code>+</code>)</strong></p>
+<blockquote>
+<p>5 8 +
+结果: 13</p>
+</blockquote>
+<p><strong>减法 (<code>-</code>)</strong></p>
+<blockquote>
+<p>10 4.5 -
+结果: 5.5</p>
+</blockquote>
+<p><strong>乘法 (<code>*</code>)</strong></p>
+<blockquote>
+<p>6 7 *
+结果: 42</p>
+</blockquote>
+<p><strong>除法 (<code>/</code>)</strong></p>
+<blockquote>
+<p>100 25 /
+结果: 4</p>
+</blockquote>
+<h3>2. 连续运算</h3>
+<p>表达式会从左到右依次计算。</p>
+<p>示例: 计算 (10 + 2) * 3</p>
+<blockquote>
+<p>10 2 + 3 *
+结果: 36
+计算过程: 10 2 + 得到 12，然后 12 3 * 得到 36。</p>
+</blockquote>
+<p>示例: 计算 (5 + 3) / (1 + 1)</p>
+<blockquote>
+<p>5 3 + 1 1 + /
+结果: 4
+计算过程: 5 3 + 得到 8，1 1 + 得到 2，最后 8 2 / 得到 4。</p>
+</blockquote>
+<h3>3. 负数和浮点数运算</h3>
+<p>计算器完全支持负数和浮点数。</p>
+<p>示例:</p>
+<blockquote>
+<p>-10 5.5 +
+结果: -4.5</p>
+</blockquote>
+<h3>4. 错误处理</h3>
+<p>当输入不符合规则时，计算器会打印错误信息。</p>
+<p>除零错误:</p>
+<blockquote>
+<p>10 0 /
+错误：检测到除零操作。 在处理 '/' 时发生。</p>
+</blockquote>
+<p>操作数不足:</p>
+<blockquote>
+<p>5 *
+错误：栈为空，无法执行操作。 在处理 '*' 时发生。</p>
+</blockquote>
+</main>
+<footer>
+<div class="nb-box">
+  <span><span class="nb-small">made with <a href="https://pietroppeter.github.io/nimib/">nimib 🐳</a></span></span>
+  <span></span>
+  <span><button class="nb-small" id="show" onclick="toggleSourceDisplay()">Show Source</button></span>
+</div>
+</footer>
+<section id="source">
+<pre><code class="nohighlight nim hljs">
+<span class="hljs-keyword">import</span> nimib
+
+nbInit
+nb.title = <span class="hljs-string">&quot;RPN 计算器使用手册 (v1.2.0)&quot;</span>
+
+<span class="hljs-comment"># ===================================================================</span>
+<span class="hljs-comment"># Section 1: 简介</span>
+<span class="hljs-comment"># ===================================================================</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+# RPN 计算器使用手册
+
+本文档提供了 RPN (逆波兰表示法) 计算器的编译说明和详细使用方法。
+&quot;&quot;&quot;</span>
+
+<span class="hljs-comment"># ===================================================================</span>
+<span class="hljs-comment"># Section 2: 编译指南 (新增)</span>
+<span class="hljs-comment"># ===================================================================</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+## 编译指南
+
+在运行程序之前，您需要先将 C++ 源代码编译成可执行文件。
+
+**环境要求:**
+*   一个支持 C++11 或更高标准的 C++ 编译器 (例如 `g++`).
+
+**编译步骤:**
+1.  将源代码保存为 `rpn_calc.cpp` 文件。
+2.  打开终端，并导航到文件所在的目录。
+3.  执行以下命令进行编译：
+&quot;&quot;&quot;</span>
+
+nbCode:
+  <span class="hljs-keyword">discard</span> <span class="hljs-string">&quot;&quot;&quot;
+  g++ -std=c++11 rpn_calc.cpp -o rpn_calc
+  &quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+4.  编译成功后，会生成一个名为 `rpn_calc` 的可执行文件。
+5.  通过以下命令运行计算器：
+&quot;&quot;&quot;</span>
+
+nbCode:
+  <span class="hljs-keyword">discard</span> <span class="hljs-string">&quot;&quot;&quot;
+  ./rpn_calc
+  &quot;&quot;&quot;</span>
+
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+程序启动后，您就可以在 `&gt;` 提示符后输入表达式了。
+&quot;&quot;&quot;</span>
+
+<span class="hljs-comment"># ===================================================================</span>
+<span class="hljs-comment"># Section 3: 用法示例 (新增并详细化)</span>
+<span class="hljs-comment"># ===================================================================</span>
+nbText: <span class="hljs-string">&quot;&quot;&quot;
+## 用法示例
+
+RPN 计算器的核心思想是&quot;操作数在前，操作符在后&quot;。
+
+### 1. 基础四则运算
+
+**加法 (`+`)**
+&gt; 5 8 +
+结果: 13
+
+**减法 (`-`)**
+&gt; 10 4.5 -
+结果: 5.5
+
+**乘法 (`*`)**
+&gt; 6 7 *
+结果: 42
+
+**除法 (`/`)**
+&gt; 100 25 /
+结果: 4
+
+### 2. 连续运算
+
+表达式会从左到右依次计算。
+
+示例: 计算 (10 + 2) * 3
+&gt; 10 2 + 3 *
+结果: 36
+计算过程: 10 2 + 得到 12，然后 12 3 * 得到 36。
+
+示例: 计算 (5 + 3) / (1 + 1)
+&gt; 5 3 + 1 1 + /
+结果: 4
+计算过程: 5 3 + 得到 8，1 1 + 得到 2，最后 8 2 / 得到 4。
+
+### 3. 负数和浮点数运算
+
+计算器完全支持负数和浮点数。
+
+示例:
+&gt; -10 5.5 +
+结果: -4.5
+
+### 4. 错误处理
+
+当输入不符合规则时，计算器会打印错误信息。
+
+除零错误:
+&gt; 10 0 /
+错误：检测到除零操作。 在处理 '/' 时发生。
+
+操作数不足:
+&gt; 5 *
+错误：栈为空，无法执行操作。 在处理 '*' 时发生。
+&quot;&quot;&quot;</span>
+
+<span class="hljs-comment"># ===================================================================</span>
+<span class="hljs-comment"># Final save command</span>
+<span class="hljs-comment"># ===================================================================</span>
+nbSave
+</code></pre>
+</section><script>
+function toggleSourceDisplay() {
+  var btn = document.getElementById("show")
+  var source = document.getElementById("source");
+  if (btn.innerHTML=="Show Source") {
+    btn.innerHTML = "Hide Source";
+    source.style.display = "block";
+  } else {
+    btn.innerHTML = "Show Source";
+    source.style.display = "none";
+  }
+}
+</script></body>
+</html>
